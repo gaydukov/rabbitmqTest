@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Producer implements CommandLineRunner {
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
     @Value("${rabbitmq.exchange}")
     private String exchange;
     @Value("${rabbitmq.routingkey}")
@@ -21,6 +20,10 @@ public class Producer implements CommandLineRunner {
     private String routingKey1;
     private static int count;
 
+    public Producer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
     @Override
     public void run(String... args) throws Exception {
         for (int i = 0; i < 10; i++) {
@@ -28,7 +31,7 @@ public class Producer implements CommandLineRunner {
             System.out.println("counter " + count);
             rabbitTemplate.convertAndSend(exchange, routingKey, new Counter(count,"counter1 "));
             rabbitTemplate.convertAndSend(exchange, routingKey1, new Counter(count,"counter2 "));
-            Thread.sleep(1000);
+         //   Thread.sleep(1000);
         }
     }
 

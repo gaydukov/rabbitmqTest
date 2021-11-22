@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-@RedisHash("Counter")
+@RedisHash(value = "Counter", timeToLive = 4)
 public class Counter implements Serializable {
     @Id
     int counter;
